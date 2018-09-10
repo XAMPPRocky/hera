@@ -54,6 +54,11 @@ impl FileChanges {
             None => {println!("Unknown language."); return Ok(true) }
         };
 
+        match language {
+            LanguageType::Markdown | LanguageType::Text => return Ok(false),
+            _ => {}
+        }
+
         let multi_line_comments: Vec<_> = language.multi_line_comments()
             .into_iter()
             .chain(language.nested_comments())

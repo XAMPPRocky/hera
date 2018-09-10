@@ -127,6 +127,13 @@ mod tests {
         }}
     }
 
+    macro_rules! add_and_commit {
+        ($msg:expr) => {{
+            git!("add" ".");
+            git!("commit" "-q" "-m" $msg);
+        }}
+    }
+
     fn create_and_init_tempdir() -> (PathBuf, tempfile::TempDir) {
         let current = env::current_dir().unwrap();
         let temp = tempfile::tempdir().expect("Couldn't create tempdir.");
@@ -143,14 +150,12 @@ mod tests {
         fs::write(temp.path().join("lib.rs"), b"Hello\n")
             .expect("Couldn't write to lib.rs");
 
-        git!("add" ".");
-        git!("commit" "-m" "Initial Commit");
+        add_and_commit!("Initial Commit");
 
         fs::write(temp.path().join("lib.rs"), b"Hello\nWorld")
             .expect("Couldn't write to lib.rs");
 
-        git!("add" ".");
-        git!("commit" "-m" "Second Commit");
+        add_and_commit!("Second Commit");
 
         env::set_current_dir(current).unwrap();
 
@@ -169,14 +174,12 @@ mod tests {
         fs::write(temp.path().join("lib.rs"), b"// Hello\n")
             .expect("Couldn't write to lib.rs");
 
-        git!("add" ".");
-        git!("commit" "-m" "Initial Commit");
+        add_and_commit!("Initial Commit");
 
         fs::write(temp.path().join("lib.rs"), b"// Hello\n// World")
             .expect("Couldn't write to lib.rs");
 
-        git!("add" ".");
-        git!("commit" "-m" "Second Commit");
+        add_and_commit!("Second Commit");
 
         env::set_current_dir(current).unwrap();
 
@@ -187,4 +190,125 @@ mod tests {
             .stdout("No code has changed.\n")
             .failure();
     }
+
+    #[test]
+    fn text_file_changed() {
+        let (current, temp) = create_and_init_tempdir();
+
+        fs::write(temp.path().join("lib.md"), b"// Hello\n")
+            .expect("Couldn't write to lib.md");
+
+        add_and_commit!("Initial Commit");
+
+        fs::write(temp.path().join("lib.md"), b"// Hello\n// World")
+            .expect("Couldn't write to lib.md");
+
+        add_and_commit!("Second Commit");
+
+        env::set_current_dir(current).unwrap();
+
+        Command::main_binary()
+            .unwrap()
+            .args(&[temp.path()])
+            .assert()
+            .stdout("No code has changed.\n")
+            .failure();
+    }
+
+    #[test]
+    fn multi_line_comment_changed() {
+        let (current, temp) = create_and_init_tempdir();
+
+        fs::write(temp.path().join("lib.md"), b"/* Hello\n\n*/\n")
+            .expect("Couldn't write to lib.md");
+
+        add_and_commit!("Initial Commit");
+
+        fs::write(temp.path().join("lib.md"), b"/* Hello\nWorld\n*/\n")
+            .expect("Couldn't write to lib.md");
+
+        add_and_commit!("Second Commit");
+
+        env::set_current_dir(current).unwrap();
+
+        Command::main_binary()
+            .unwrap()
+            .args(&[temp.path()])
+            .assert()
+            .stdout("No code has changed.\n")
+            .failure();
+    }
+
+    #[test]
+    fn code_between_multi_line_changed() {
+        let (current, temp) = create_and_init_tempdir();
+
+        fs::write(temp.path().join("lib.rs"), b"/*Hello*/\nWorld\n/*!!!!*/\n")
+            .expect("Couldn't write to lib.rs");
+
+        add_and_commit!("Initial Commit");
+
+        fs::write(temp.path().join("lib.rs"), b"/*Hello*/\nHello World\n/*!!!!*/\n")
+            .expect("Couldn't write to lib.rs");
+
+        add_and_commit!("Second Commit");
+
+        env::set_current_dir(current).unwrap();
+
+        Command::main_binary()
+            .unwrap()
+            .args(&[temp.path()])
+            .assert()
+            .stdout("Code has changed.\n")
+            .success();
+    }
+
+    #[test]
+    fn code_in_example_block_changed() {
+        let (current, temp) = create_and_init_tempdir();
+
+        fs::write(temp.path().join("lib.rs"), b"/// ```\nHello\nWorld\n/// ```\n")
+            .expect("Couldn't write to lib.rs");
+
+        add_and_commit!("Initial Commit");
+
+        fs::write(temp.path().join("lib.rs"), b"/// ```\nHello\n/// ```\n")
+            .expect("Couldn't write to lib.rs");
+
+        add_and_commit!("Second Commit");
+
+        env::set_current_dir(current).unwrap();
+
+        Command::main_binary()
+            .unwrap()
+            .args(&[temp.path()])
+            .assert()
+            .stdout("Code has changed.\n")
+            .success();
+    }
+
+    #[test]
+    fn comment_added_to_code() {
+        let (current, temp) = create_and_init_tempdir();
+
+        fs::write(temp.path().join("lib.rs"), b"Hello\n")
+            .expect("Couldn't write to lib.rs");
+
+        add_and_commit!("Initial Commit");
+
+        fs::write(temp.path().join("lib.rs"), b"Hello\n// World\n")
+            .expect("Couldn't write to lib.rs");
+
+        add_and_commit!("Second Commit");
+
+        env::set_current_dir(current).unwrap();
+
+        Command::main_binary()
+            .unwrap()
+            .args(&[temp.path()])
+            .assert()
+            .stdout("No code has changed.\n")
+            .failure();
+    }
+
 }
