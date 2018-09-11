@@ -22,7 +22,6 @@ environment:
       RUST_VERSION: nightly
 
 install:
-  - cinst git
   - ps: >-
       If ($Env:TARGET -eq 'x86_64-pc-windows-gnu') {
         $Env:PATH += ';C:\msys64\mingw64\bin'
@@ -39,6 +38,7 @@ test_script:
   # we don't run the "test phase" when doing deploys
   - if [%APPVEYOR_REPO_TAG%]==[false] (
       cargo build --target %TARGET% &&
+      cinst git &&
       cargo test --target %TARGET%
     )
 
