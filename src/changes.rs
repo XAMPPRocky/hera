@@ -43,7 +43,9 @@ impl Changes {
 }
 
 impl FileChanges {
-    pub fn has_code_changes(&self) -> Result<bool, Box<Error>> {
+    pub fn has_code_changes(&self, filter: &Option<Vec<LanguageType>>)
+        -> Result<bool, Box<Error>>
+    {
         let path = match &self.path {
             Some(p) => p.clone(),
             None => {println!("No path."); return Ok(false) }
@@ -57,6 +59,12 @@ impl FileChanges {
         match language {
             LanguageType::Markdown | LanguageType::Text => return Ok(false),
             _ => {}
+        }
+
+        if let Some(filter) = filter {
+            if !filter.contains(&language) {
+                return Ok(false)
+            }
         }
 
         let multi_line_comments: Vec<_> = language.multi_line_comments()
@@ -108,9 +116,15 @@ impl FileChanges {
                         text = escaped,
                     )
                 );
+
+                regexes.push(format!(
+                        r"^/\*!.*```.*{text}.*\n.*```.*\*/",
+                        text = escaped,
+                    )
+                );
             }
 
-            // Regexes that check if it's comments.
+            // Regexes that check if it's code in comments.
             let is_in_comments = regexes.len();
             for (start, end) in &multi_line_comments {
                 regexes.push(format!(

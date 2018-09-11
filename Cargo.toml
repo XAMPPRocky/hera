@@ -1,14 +1,30 @@
 [package]
 authors = ["Aaron Power <theaaronepower@gmail.com>"]
-name = "hermes"
+description = "A program for checking if there were code changes between git commits."
+name = "hera"
 version = "0.1.0"
+license = "MIT/Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/Aaronepower/hera.git"
+keywords = ["ci", "watch", "watcher", "continuous", "integration"]
+categories = ["command-line-utilities", "development-tools"]
+
+[badges]
+travis-ci = { repository = "Aaronepower/hera" }
+appveyor = { repository = "Aaronepower/hera" }
+
+[profile.release]
+panic="abort"
+lto=true
+
 [dependencies]
-clap = "*"
+clap = "2"
 encoding_rs_io = "0.1"
-git2 = "*"
-regex = "*"
-tokei = "*"
+git2 = "0.7"
+regex = "1"
+tokei = "8"
 
 [dev-dependencies]
-assert_cmd = "*"
-tempfile = "*"
+assert_cmd = "0.9"
+tempfile = "3"
+
