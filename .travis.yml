@@ -65,7 +65,7 @@ install:
   - source ~/.cargo/env || true
 
 script:
-  - sudo apt-get install -y git
+    - if [ $TRAVIS_OS_NAME = linux ]; then sudo apt-get install git; else brew install git; fi
 
 after_script: set +e
 
