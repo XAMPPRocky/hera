@@ -65,7 +65,7 @@ install:
   - source ~/.cargo/env || true
 
 script:
-  - bash ci/script.sh
+  - sudo apt-get install -y git
 
 after_script: set +e
 

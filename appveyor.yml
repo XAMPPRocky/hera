@@ -22,6 +22,7 @@ environment:
       RUST_VERSION: nightly
 
 install:
+  - cinst <package>
   - ps: >-
       If ($Env:TARGET -eq 'x86_64-pc-windows-gnu') {
         $Env:PATH += ';C:\msys64\mingw64\bin'
