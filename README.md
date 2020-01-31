@@ -5,6 +5,7 @@
 [![](https://img.shields.io/github/issues-raw/XAMPPRocky/hera.svg)](https://github.com/XAMPPRocky/hera/issues)
 [![](https://tokei.rs/b1/github/XAMPPRocky/hera?category=code)](https://github.com/XAMPPRocky/hera)
 [![Documentation](https://docs.rs/hera/badge.svg)](https://docs.rs/hera/)
+
 Hera checks if there were actual code changes in the last commit in git
 repositories. Allowing you to skip building your project if only documentation
 or comments have changed.  This is mainly useful for projects that have really
