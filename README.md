@@ -1,11 +1,10 @@
 # Hera
-[![Linux build status](https://img.shields.io/travis/Aaronepower/hera.svg?branch=master)](https://travis-ci.org/Aaronepower/hera)
-[![Windows build status](https://ci.appveyor.com/api/projects/status/github/Aaronepower/hera?svg=true)](https://ci.appveyor.com/project/Aaronepower/hera)
+[![Linux build status](https://img.shields.io/travis/XAMPPRocky/hera.svg?branch=master)](https://travis-ci.org/XAMPPRocky/hera)
+[![Windows build status](https://ci.appveyor.com/api/projects/status/github/XAMPPRocky/hera?svg=true)](https://ci.appveyor.com/project/XAMPPRocky/hera)
 [![](https://img.shields.io/crates/d/hera.svg)](https://crates.io/crates/hera)
-[![](https://img.shields.io/github/issues-raw/Aaronepower/hera.svg)](https://github.com/Aaronepower/hera/issues)
-[![](https://tokei.rs/b1/github/Aaronepower/hera?category=code)](https://github.com/Aaronepower/hera)
+[![](https://img.shields.io/github/issues-raw/XAMPPRocky/hera.svg)](https://github.com/XAMPPRocky/hera/issues)
+[![](https://tokei.rs/b1/github/XAMPPRocky/hera?category=code)](https://github.com/XAMPPRocky/hera)
 [![Documentation](https://docs.rs/hera/badge.svg)](https://docs.rs/hera/)
-[![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Aaronepower/donate)
 Hera checks if there were actual code changes in the last commit in git
 repositories. Allowing you to skip building your project if only documentation
 or comments have changed.  This is mainly useful for projects that have really
@@ -25,7 +24,7 @@ You can download prebuilt binaries in the [releases section] or create one
 from source.
 
 ```shell
-$ git clone https://github.com/Aaronepower/hera.git
+$ git clone https://github.com/XAMPPRocky/hera.git
 $ cd hera
 $ cargo build --release
 ```
@@ -68,6 +67,6 @@ ARGS:
 hera && cargo build
 ```
 
-[releases section]: https://github.com/Aaronepower/hera/releases
-[tokei]: https://github.com/Aaronepower/tokei
+[releases section]: https://github.com/XAMPPRocky/hera/releases
+[tokei]: https://github.com/XAMPPRocky/tokei
 
