@@ -21,7 +21,7 @@ use changes::Changes;
 fn main() -> Result<(), Box<Error>> {
     let matches = clap_app!(hera =>
         (version: crate_version!())
-        (author: "Aaron P. <theaaronepower@gmail.com> + Contributors")
+        (author: "Erin P. <xampprocky@gmail.com> + Contributors")
         (about: crate_description!())
         (@arg input:
             conflicts_with[languages] ...
