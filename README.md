@@ -40,27 +40,6 @@ $ cargo build --release
 - edit `PATH`
 - append folder path to the end of the string ie: `<path>;C:/hera/;`
 
-## Help
-```
-hera 0.1.0
-Aaron P. <theaaronepower@gmail.com> + Contributors
-A program for checking if there were code changes between git commits.
-
-USAGE:
-    hera [FLAGS] [OPTIONS] [input]...
-
-FLAGS:
-    -h, --help       Prints help information
-    -q, --quiet      Do not output to stdout.
-    -V, --version    Prints version information
-
-OPTIONS:
-    -f, --filter <filter>    Filters by language, seperated by a comma. i.e. -t=Rust,C
-
-ARGS:
-    <input>...    The git repositories to be checked. Defaults to the current directory.
-```
-
 ## Example
 
 ```
